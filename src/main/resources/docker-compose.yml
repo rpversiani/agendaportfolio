@@ -1,0 +1,20 @@
+version: '3.8'
+
+services:
+  postgres:
+    image: postgres:16-alpine
+    container_name: agenda_portfolio_db
+    restart: unless-stopped
+
+    environment:
+      POSTGRES_PASSWORD: Admin@123
+      POSTGRES_DB: agenda_portfolio_db
+
+    ports:
+      - "5432:5432"
+
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+
+volumes:
+  postgres_data:
