@@ -1,13 +1,13 @@
 package com.rpversiani.agendaportfolio.controller;
 
 
-import com.rpversiani.agendaportfolio.model.Entity.Appointment;
+import com.rpversiani.agendaportfolio.model.entity.Appointment;
+import com.rpversiani.agendaportfolio.service.AppointmentService;
+import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
+import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
@@ -17,12 +17,20 @@ import java.util.UUID;
 @RequestMapping("/appointment")
 public class AppointmentController {
 
-    //private final AppointmentService appointmentService;
+    private final AppointmentService appointmentService;
 
     @GetMapping("/{id}")
-    public ResponseEntity <List<Appointment>> getAppointmentsByUserId(@PathVariable UUID id) {
-//        List<Appointment> appointment = appointmentService.getAppointmentsByCustomerId(id);
-//        return new ResponseEntity<>(appointment, HttpStatus.OK);
-        return null;
+    public ResponseEntity <List<Appointment>> getAppointmentsByCustomerId(@PathVariable UUID id) {
+        List<Appointment> appointment = appointmentService.getAppointmentsByCustomerId(id);
+        return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
+
+    @PostMapping("/create")
+    public ResponseEntity<Appointment> createUser(@RequestBody @Valid Appointment newAppointment) {
+        Appointment appointment = appointmentService.createAppointment(newAppointment);
+        return new ResponseEntity<>(appointment, HttpStatus.CREATED);
+    }
+
+    //TODO fazer a controller de update e delete
+    //TODO criar os DTOs das entidades
 }

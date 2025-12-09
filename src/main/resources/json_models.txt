@@ -7,4 +7,29 @@
   "role": "ADMIN"
 }
 
+{
+  "name": "Zefa",
+  "username": "zefa",
+  "email": "zefa@email.com",
+  "password": "zefa123",
+  "role": "CUSTOMER"
+}
+
 //Appointment
+{
+  "createdAt": "2025-12-09T19:46:00.567Z",
+  "updatedAt": "2025-12-09T19:46:00.567Z",
+  "startTime": "2025-12-09T19:46:00.567Z",
+  "endTime": "2025-12-09T19:46:00.567Z",
+  "status": "CONFIRMED",
+  "customer": {
+        "id": "5b25e03f-f38b-4f64-b785-cef52894638b"
+  },
+  "serviceType": {
+        "id": "e9be2d7e-96d2-4056-acb2-829f765aaaa0"
+  },
+  "createdByUserId": {
+        "id": "77e41e85-9771-4d42-af6d-71f7f9d58f4f"
+  },
+  "createdByAI": false
+}

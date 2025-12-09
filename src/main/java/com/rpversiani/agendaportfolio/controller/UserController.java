@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.controller;
 
-import com.rpversiani.agendaportfolio.model.Entity.User;
+import com.rpversiani.agendaportfolio.model.entity.User;
 import com.rpversiani.agendaportfolio.service.UserService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;

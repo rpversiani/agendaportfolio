@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.service;
 
-import com.rpversiani.agendaportfolio.model.Entity.User;
+import com.rpversiani.agendaportfolio.model.entity.User;
 import com.rpversiani.agendaportfolio.repository.UserRepository;
 import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;

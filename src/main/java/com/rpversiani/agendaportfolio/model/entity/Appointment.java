@@ -1,4 +1,4 @@
-package com.rpversiani.agendaportfolio.model.Entity;
+package com.rpversiani.agendaportfolio.model.entity;
 
 import com.rpversiani.agendaportfolio.model.Enum.AppointmentStatus;
 import jakarta.persistence.*;
@@ -18,18 +18,22 @@ public class Appointment extends BaseEntity{
     @Column(name = "end_time")
     private LocalDateTime endTime;
 
+    @Enumerated(EnumType.STRING)
     @Column(name = "status")
     private AppointmentStatus status;
 
-    @ManyToOne
+    @ManyToOne(optional = false)
     @JoinColumn(name = "customer_id")
     private User customer;
 
     @ManyToOne(optional = false)
-    @JoinColumn(name = "user_id")
-    private User user;
-
-    @ManyToOne(optional = false)
     @JoinColumn(name = "service_type_id")
     private ServiceType serviceType;
+
+    @ManyToOne
+    @JoinColumn(name = "creator_user_id")
+    private User createdByUserId;
+
+    @Column(name = "created_by_ai", nullable = false)
+    private boolean createdByAI = false;
 }

@@ -1,4 +1,4 @@
-package com.rpversiani.agendaportfolio.model.Entity;
+package com.rpversiani.agendaportfolio.model.entity;
 
 import jakarta.persistence.*;
 import lombok.Getter;
