@@ -1,7 +1,8 @@
 package com.rpversiani.agendaportfolio.controller;
 
 
-import com.rpversiani.agendaportfolio.model.entity.Appointment;
+import com.rpversiani.agendaportfolio.model.dto.AppointmentCreationDTO;
+import com.rpversiani.agendaportfolio.model.dto.AppointmentResponseDTO;
 import com.rpversiani.agendaportfolio.service.AppointmentService;
 import jakarta.validation.Valid;
 import lombok.AllArgsConstructor;
@@ -20,17 +21,20 @@ public class AppointmentController {
     private final AppointmentService appointmentService;
 
     @GetMapping("/{id}")
-    public ResponseEntity <List<Appointment>> getAppointmentsByCustomerId(@PathVariable UUID id) {
-        List<Appointment> appointment = appointmentService.getAppointmentsByCustomerId(id);
+    public ResponseEntity <List<AppointmentResponseDTO>> getAppointmentsByCustomerId(@PathVariable UUID id) {
+        List<AppointmentResponseDTO> appointment = appointmentService.getAppointmentsByCustomerId(id);
         return new ResponseEntity<>(appointment, HttpStatus.OK);
     }
 
     @PostMapping("/create")
-    public ResponseEntity<Appointment> createUser(@RequestBody @Valid Appointment newAppointment) {
-        Appointment appointment = appointmentService.createAppointment(newAppointment);
+    public ResponseEntity<AppointmentCreationDTO> createUser(@RequestBody @Valid AppointmentCreationDTO newAppointment) {
+        AppointmentCreationDTO appointment = appointmentService.createAppointment(newAppointment);
         return new ResponseEntity<>(appointment, HttpStatus.CREATED);
     }
 
-    //TODO fazer a controller de update e delete
-    //TODO criar os DTOs das entidades
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deleteUser(@PathVariable UUID id) {
+        appointmentService.deleteAppointment(id);
+        return new ResponseEntity<>(HttpStatus.OK);
+    }
 }
