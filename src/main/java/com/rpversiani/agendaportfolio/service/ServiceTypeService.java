@@ -1,7 +1,6 @@
 package com.rpversiani.agendaportfolio.service;
 
 import com.rpversiani.agendaportfolio.model.dto.ServiceTypeDTO;
-import com.rpversiani.agendaportfolio.model.entity.ServiceType;
 import com.rpversiani.agendaportfolio.repository.ServiceTypeRepository;
 import com.rpversiani.agendaportfolio.utils.EntityToDTO;
 import org.springframework.stereotype.Service;
@@ -18,7 +17,9 @@ public class ServiceTypeService {
     }
 
     public List<ServiceTypeDTO> getAllServiceTypes(){
-        List<ServiceType> serviceType = serviceTypeRepository.findAll();
-        return serviceType.stream().map(EntityToDTO::serviceTypeToDTO).toList();
+        return serviceTypeRepository.findAll()
+                .stream()
+                .map(EntityToDTO::serviceTypeToDTO)
+                .toList();
     }
 }

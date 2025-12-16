@@ -1,5 +1,6 @@
 package com.rpversiani.agendaportfolio.service;
 
+import com.rpversiani.agendaportfolio.exception.custom.PasswordException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -14,25 +15,20 @@ public class PasswordService {
 
     public void validatePassword(String userCurrentPassword, String newPassword) {
         if (passwordEncoder.matches(newPassword, userCurrentPassword)) {
-            throw new IllegalArgumentException("A nova senha deve ser diferente da senha atual.");
-        }
-
-        if (newPassword.length() < PASSWORD_MIN_LENGTH) {
-            throw new IllegalArgumentException("A nova senha deve ter no mínimo 8 caracteres.");
+            throw new PasswordException("The new password must be different from the current password");
         }
 
         checkPasswordStrength(newPassword);
     }
 
-    private void checkPasswordStrength(String newPassword){
-        boolean isWeak = newPassword.length() < 8
+    public void checkPasswordStrength(String newPassword){
+        boolean isWeak = newPassword.length() < PASSWORD_MIN_LENGTH
                 || !newPassword.matches(".*\\d.*")
                 || !newPassword.matches(".*[A-Z].*");
 
         if (isWeak) {
-            throw new IllegalArgumentException("A nova senha deve conter ao menos 8 caracteres, incluindo número e letra maiúscula.");
+            throw new PasswordException("The new password must contain at least 8 characters, " +
+                    "including numbers and uppercase letters");
         }
-
     }
-
 }

@@ -38,15 +38,6 @@ public class EntityToDTO {
         );
     }
 
-    public static UserRequestDTO userRequestToDTO(User user){
-        return new UserRequestDTO(
-                user.getName(),
-                user.getUsername(),
-                user.getEmail(),
-                user.getRole()
-        );
-    }
-
     public static UserResponseDTO userResponseToDTO(User user){
         return new UserResponseDTO(
                 user.getName(),

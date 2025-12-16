@@ -1,5 +1,7 @@
 package com.rpversiani.agendaportfolio.service;
 
+import com.rpversiani.agendaportfolio.exception.custom.AppointmentException;
+import com.rpversiani.agendaportfolio.exception.custom.ResourceNotFoundException;
 import com.rpversiani.agendaportfolio.model.dto.AppointmentCreationDTO;
 import com.rpversiani.agendaportfolio.model.dto.AppointmentResponseDTO;
 import com.rpversiani.agendaportfolio.model.entity.Appointment;
@@ -9,7 +11,6 @@ import com.rpversiani.agendaportfolio.repository.AppointmentRepository;
 import com.rpversiani.agendaportfolio.repository.ServiceTypeRepository;
 import com.rpversiani.agendaportfolio.repository.UserRepository;
 import com.rpversiani.agendaportfolio.utils.EntityToDTO;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.stereotype.Service;
 
 import java.time.LocalDateTime;
@@ -27,8 +28,6 @@ public class AppointmentService {
 
     private final ServiceTypeRepository serviceTypeRepository;
 
-    Appointment appointment = new Appointment();
-
     public AppointmentService(AppointmentRepository appointmentRepository, UserRepository userRepository, ServiceTypeRepository serviceTypeRepository) {
         this.appointmentRepository = appointmentRepository;
         this.userRepository = userRepository;
@@ -36,7 +35,7 @@ public class AppointmentService {
     }
 
     public Appointment getAppointmentById(UUID id){
-        return appointmentRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return appointmentRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("Appointment not found"));
     }
 
     public List<AppointmentResponseDTO> getAppointmentsByCustomerId(UUID id) {
@@ -47,17 +46,17 @@ public class AppointmentService {
                 .toList();
     }
 
+    //TODO Revisar regras de agendamento
     public AppointmentCreationDTO createAppointment(AppointmentCreationDTO dto) {
-        //TODO Criar a validação do agendamento e todo o processamento da regra de negócio
+        Appointment appointment = new Appointment();
 
-        validateCreatedByField(dto);
-
-        checkServiceSchedulingConflicts(dto.getCustomerId(),dto.getStartTime(),dto.getEndTime());
+        checkSchedulingConflicts(dto.getCustomerId(),dto.getStartTime());
 
         appointment.setStartTime(dto.getStartTime());
         appointment.setEndTime(dto.getEndTime());
         appointment.setStatus((dto.getStatus()));
         appointment.setCustomer(getCustomer(dto));
+        appointment.setCreatedByUserId(getCreatedByUserId(dto));
         appointment.setServiceType(getServiceType(dto));
         appointment.setCreatedByAI(dto.getCreatedByAI());
 
@@ -70,40 +69,29 @@ public class AppointmentService {
         appointmentRepository.delete(appointment);
     }
 
-    private void validateCreatedByField(AppointmentCreationDTO dto) {
-        if (dto.getCreatedByUserId() != null) {
-            User createdByUser = userRepository.findById(dto.getCreatedByUserId())
-                    .orElseThrow(() -> new EntityNotFoundException("Creator user not found"));
-
-            appointment.setCreatedByUserId(createdByUser);
-        }
+    private User getCreatedByUserId(AppointmentCreationDTO dto){
+            return userRepository.findById(dto.getCreatedByUserId())
+                    .orElseThrow(() -> new ResourceNotFoundException("Creator user not found"));
     }
 
     private ServiceType getServiceType(AppointmentCreationDTO dto){
         return serviceTypeRepository.findById(dto.getServiceTypeId())
-                .orElseThrow(() -> new EntityNotFoundException("Service type not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Service type not found"));
     }
 
     private User getCustomer(AppointmentCreationDTO dto){
         return userRepository.findById(dto.getCustomerId())
-                .orElseThrow(() -> new EntityNotFoundException("Customer not found"));
+                .orElseThrow(() -> new ResourceNotFoundException("Customer not found"));
     }
 
-    private void checkServiceSchedulingConflicts(UUID customerId, LocalDateTime startTime, LocalDateTime endTime){
+    private void checkSchedulingConflicts(UUID customerId, LocalDateTime startTime){
 
         List<Appointment> appointments = appointmentRepository.findAllByCustomerId(customerId);
 
-        if(!appointments.isEmpty()){
-            for (Appointment appointment : appointments) {
-                if(appointment.getStartTime().equals(startTime)){
-                    throw new RuntimeException("There is a scheduled service for the same start date.");
-                }
-                if(appointment.getEndTime().isAfter(startTime)){
-                    throw new RuntimeException("Existe agendamento com o encerramento programado para depois do horário deste agendamento.");
-                }
+        for (Appointment appointment : appointments) {
+            if(appointment.getStartTime().equals(startTime) || appointment.getEndTime().isAfter(startTime)){
+                throw new AppointmentException("There is a scheduling conflict. Try changing the date or time of the appointment.");
             }
         }
-
-
     }
 }
