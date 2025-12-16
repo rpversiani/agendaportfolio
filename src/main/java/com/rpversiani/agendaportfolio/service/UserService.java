@@ -1,11 +1,10 @@
 package com.rpversiani.agendaportfolio.service;
 
-import com.rpversiani.agendaportfolio.model.dto.ChangePasswordDTO;
+import com.rpversiani.agendaportfolio.exception.custom.ResourceNotFoundException;
 import com.rpversiani.agendaportfolio.model.dto.UserRequestDTO;
 import com.rpversiani.agendaportfolio.model.dto.UserResponseDTO;
 import com.rpversiani.agendaportfolio.model.entity.User;
 import com.rpversiani.agendaportfolio.repository.UserRepository;
-import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
@@ -30,7 +29,7 @@ public class UserService {
     }
 
     public User getUserById(UUID id){
-        return userRepository.findById(id).orElseThrow(EntityNotFoundException::new);
+        return userRepository.findById(id).orElseThrow(() -> new ResourceNotFoundException("User not found"));
     }
 
     public UserResponseDTO getUserResponseDTOById(UUID id) {
@@ -41,9 +40,11 @@ public class UserService {
         User user = new User();
         user.setName(newUser.getName());
         user.setUsername(newUser.getUsername());
-        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
         user.setEmail(newUser.getEmail());
         user.setRole(newUser.getRole());
+
+        passwordService.checkPasswordStrength(newUser.getPassword());
+        user.setPassword(passwordEncoder.encode(newUser.getPassword()));
 
         userRepository.save(user);
         return userResponseToDTO(user);
