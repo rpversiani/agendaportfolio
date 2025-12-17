@@ -1,4 +1,4 @@
-package com.rpversiani.agendaportfolio.security;
+package com.rpversiani.agendaportfolio.config;
 
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
