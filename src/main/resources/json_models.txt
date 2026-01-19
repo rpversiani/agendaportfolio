@@ -1,17 +1,17 @@
 //Create User
 {
-  "name": "Raphael",
+  "name": "Raphael Versiani",
   "username": "rpversiani",
-  "email": "rpversiani@email.com",
+  "email": "rversiani@email.com",
   "password": "Admin123",
   "role": "ADMIN"
 }
 
 {
-  "name": "Zefa",
-  "username": "zefa",
-  "email": "zefa@email.com",
-  "password": "zefa123",
+  "name": "Michael Jordan",
+  "username": "mjordan",
+  "email": "mjordan@email.com",
+  "password": "jordanair123",
   "role": "CUSTOMER"
 }
 
@@ -22,8 +22,8 @@
   "startTime": "2025-12-09T19:46:00.567Z",
   "endTime": "2025-12-09T19:46:00.567Z",
   "status": "CONFIRMED",
-  "customerId": "5b25e03f-f38b-4f64-b785-cef52894638b",
-  "serviceTypeId": "e9be2d7e-96d2-4056-acb2-829f765aaaa0",
-  "createdByUserId": "77e41e85-9771-4d42-af6d-71f7f9d58f4f",
+  "customerId": "5f19489f-03c6-42aa-9b62-aded8f2653bc",
+  "serviceTypeId": "ff344b74-33a2-4730-8ffe-557a34cd1535",
+  "createdByUserId": "c24a3f32-6922-4e63-bcec-4a67ff0da0e9",
   "createdByAI": false
 }

@@ -1,6 +1,5 @@
 package com.rpversiani.agendaportfolio.controller;
 
-import com.rpversiani.agendaportfolio.model.dto.ChangePasswordDTO;
 import com.rpversiani.agendaportfolio.model.dto.UserRequestDTO;
 import com.rpversiani.agendaportfolio.model.dto.UserResponseDTO;
 import com.rpversiani.agendaportfolio.model.entity.User;
@@ -48,7 +47,7 @@ public class UserController {
     }
 
     @PutMapping("/{id}/password")
-    public ResponseEntity<Void> changePassword(@PathVariable UUID id, @PathVariable String newPassword) {
+    public ResponseEntity<Void> changePassword(@PathVariable UUID id, @RequestParam String newPassword) {
         userService.changePassword(id, newPassword);
         return ResponseEntity.noContent().build();
     }

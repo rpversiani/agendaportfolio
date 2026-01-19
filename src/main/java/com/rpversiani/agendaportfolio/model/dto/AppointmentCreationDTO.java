@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.model.dto;
 
-import com.rpversiani.agendaportfolio.model.Enum.AppointmentStatus;
+import com.rpversiani.agendaportfolio.model.enums.AppointmentStatus;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;

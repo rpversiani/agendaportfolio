@@ -5,7 +5,6 @@ import com.rpversiani.agendaportfolio.model.dto.UserRequestDTO;
 import com.rpversiani.agendaportfolio.model.dto.UserResponseDTO;
 import com.rpversiani.agendaportfolio.model.entity.User;
 import com.rpversiani.agendaportfolio.repository.UserRepository;
-import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -18,14 +17,14 @@ public class UserService {
 
     private final UserRepository userRepository;
 
-    @Autowired
-    private PasswordEncoder passwordEncoder;
+    private final PasswordEncoder passwordEncoder;
 
     private final PasswordService passwordService;
 
-    public UserService(UserRepository userRepository, PasswordService passwordService) {
+    public UserService(UserRepository userRepository, PasswordService passwordService, PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordService = passwordService;
+        this.passwordEncoder = passwordEncoder;
     }
 
     public User getUserById(UUID id){

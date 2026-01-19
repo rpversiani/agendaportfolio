@@ -15,7 +15,7 @@ public class PasswordService {
 
     public void validatePassword(String userCurrentPassword, String newPassword) {
         if (passwordEncoder.matches(newPassword, userCurrentPassword)) {
-            throw new PasswordException("The new password must be different from the current password");
+            throw new PasswordException("The password must be different from the current password");
         }
 
         checkPasswordStrength(newPassword);
@@ -27,7 +27,7 @@ public class PasswordService {
                 || !newPassword.matches(".*[A-Z].*");
 
         if (isWeak) {
-            throw new PasswordException("The new password must contain at least 8 characters, " +
+            throw new PasswordException("The password must contain at least 8 characters, " +
                     "including numbers and uppercase letters");
         }
     }

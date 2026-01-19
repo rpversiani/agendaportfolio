@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.model.entity;
 
-import com.rpversiani.agendaportfolio.model.Enum.UserRole;
+import com.rpversiani.agendaportfolio.model.enums.UserRole;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

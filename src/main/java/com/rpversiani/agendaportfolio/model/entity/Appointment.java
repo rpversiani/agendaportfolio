@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.model.entity;
 
-import com.rpversiani.agendaportfolio.model.Enum.AppointmentStatus;
+import com.rpversiani.agendaportfolio.model.enums.AppointmentStatus;
 import jakarta.persistence.*;
 import lombok.Getter;
 import lombok.Setter;

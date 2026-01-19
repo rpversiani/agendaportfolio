@@ -1,6 +1,6 @@
 package com.rpversiani.agendaportfolio.model.dto;
 
-import com.rpversiani.agendaportfolio.model.Enum.UserRole;
+import com.rpversiani.agendaportfolio.model.enums.UserRole;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
